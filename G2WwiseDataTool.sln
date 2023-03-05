@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "G2WwiseDataTool", "G2WwiseDataTool\G2WwiseDataTool.csproj", "{16BA1CC5-16D7-4EC4-B828-90563A5C38B3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{16BA1CC5-16D7-4EC4-B828-90563A5C38B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16BA1CC5-16D7-4EC4-B828-90563A5C38B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16BA1CC5-16D7-4EC4-B828-90563A5C38B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16BA1CC5-16D7-4EC4-B828-90563A5C38B3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4965AC17-E611-4B8C-8BAE-18FEFF275C44}
+	EndGlobalSection
+EndGlobal

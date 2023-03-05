@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "G2WwiseDataTool": {
+      "commandName": "Project",
+      "commandLineArgs": "-i C:\\Users\\Josh\\Documents\\WwiseProjects\\Hitman\\GeneratedSoundBanks\\Windows\\SoundbanksInfo.xml -o \"C:\\Program Files\\Epic Games\\HITMAN3\\Simple Mod Framework\\Mods\\HM3CustomMaps\\content\\chunk0\\custom soundbank testing\" -r \"C:\\Users\\Josh\\Downloads\\rpkg\\rpkg-cli.exe\" -f"
+    }
+  }
+}
