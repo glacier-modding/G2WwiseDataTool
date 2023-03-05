@@ -13,8 +13,8 @@ namespace G2WwiseDataTool
         [Option('i', "input", Required = true, HelpText = "Path to SoundBanksInfoPath.xml file (Located in Wwise_Project_Root\\GeneratedSoundBanks\\Windows\\).")]
         public string inputPath { get; set; }
 
-        [Option('o', "output", Required = true, HelpText = "Path to output files.")]
-        public string outputPath { get; set; }
+        [Option('o', "output", Required = false, HelpText = "Path to output files (Defaults to current working directory).")]
+        public string outputPath { get; set; } = Directory.GetCurrentDirectory();
 
         [Option('r', "rpkg", Required = false, HelpText = "Path to rpkg-cli for automatic .meta.json to .meta conversion.")]
         public string rpkgPath { get; set; }
