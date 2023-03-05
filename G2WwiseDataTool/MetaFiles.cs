@@ -14,6 +14,19 @@ namespace G2WwiseDataTool
 {
     public class MetaFiles
     {
+        public static class JsonSerializerOptionsProvider
+        {
+            public static JsonSerializerOptions Options { get; }
+
+            static JsonSerializerOptionsProvider()
+            {
+                Options = new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                };
+            }
+        }
+
         public static void GenerateWBNKMetaFile(string soundBankHash, string outputPath)
         {
             string hashValue = soundBankHash;
@@ -44,7 +57,7 @@ namespace G2WwiseDataTool
                 hash_size_in_memory = hashSizeInMemory,
                 hash_size_in_video_memory = hashSizeInVideoMemory,
                 hash_reference_data = hashReferenceData
-            });
+            }, JsonSerializerOptionsProvider.Options);
 
             System.IO.File.WriteAllText(outputPath, wbnkMetaData);
         }
@@ -86,7 +99,7 @@ namespace G2WwiseDataTool
                 hash_size_in_memory = hashSizeInMemory,
                 hash_size_in_video_memory = hashSizeInVideoMemory,
                 hash_reference_data = hashReferenceData
-            });
+            }, JsonSerializerOptionsProvider.Options);
 
             System.IO.File.WriteAllText(outputPath, wwevMetaData);
         }
@@ -116,7 +129,7 @@ namespace G2WwiseDataTool
                 hash_size_in_memory = hashSizeInMemory,
                 hash_size_in_video_memory = hashSizeInVideoMemory,
                 hash_reference_data = hashReferenceData
-            });
+            }, JsonSerializerOptionsProvider.Options);
 
             System.IO.File.WriteAllText(outputPath, wwemMetaData);
         }
