@@ -224,13 +224,23 @@ namespace G2WwiseDataTool
                             }
                             ProcessSoundbanks.ProcessSoundbank(Path.Combine(directoryPath, soundBankPath), finalOutputPath + ".wwisesoundbank");
                             MetaFiles.GenerateWBNKMetaFile(soundBankHash, finalOutputPath + ".wwisesoundbank.meta.json");
-                            MetaFiles.ConvertToMeta(rpkgPath, Path.Combine(finalOutputPath + ".wwisesoundbank.meta.json"));
+
+                            if (rpkgPath != null)
+                            {
+                                MetaFiles.ConvertToMeta(rpkgPath, Path.Combine(finalOutputPath + ".wwisesoundbank.meta.json"));
+                            }
+
                         }
                         else
                         {
                             ProcessSoundbanks.ProcessSoundbank(Path.Combine(directoryPath, soundBankPath), outputPath + soundBankHash + ".WBNK");
                             MetaFiles.GenerateWBNKMetaFile(soundBankHash, outputPath + soundBankHash + ".WBNK.meta.json");
-                            MetaFiles.ConvertToMeta(rpkgPath, Path.Combine(outputPath + soundBankHash + ".WBNK.meta.json"));
+
+                            if (rpkgPath != null)
+                            {
+                                MetaFiles.ConvertToMeta(rpkgPath, Path.Combine(outputPath + soundBankHash + ".WBNK.meta.json"));
+                            }
+
                         }
                     }
                 }
