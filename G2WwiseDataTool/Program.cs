@@ -19,21 +19,33 @@ namespace G2WwiseDataTool
             var bufferedListener = new BufferedTraceListener();
             Trace.Listeners.Add(bufferedListener);
 
-            var result = Parser.Default.ParseArguments<Options>(args);
-            result.WithParsed<Options>(o =>
-            {
-                if (Path.GetFileName(o.inputPath) != "SoundbanksInfo.xml")
+            var parser = Parser.Default.ParseArguments<Options>(args);
+
+            parser
+                .WithParsed(options =>
                 {
-                    Console.WriteLine("Input file specified must be SoundBanksInfo.xml");
-                    return;
-                }
-                else
-                {
-                    SoundbanksInfoParser.ReadSoundbankInfo(o.inputPath, Path.TrimEndingDirectorySeparator(o.outputPath) + "\\", o.outputToFolderStructure, o.rpkgPath, o.verbose);
-                }
-            });
+                    if (options.inputPath != null)
+                    {
+                        if (Path.GetFileName(options.inputPath) != "SoundbanksInfo.xml")
+                        {
+                            Console.WriteLine("Input file specified must be SoundBanksInfo.xml");
+                            return;
+                        }
+                        else
+                        {
+                            SoundbanksInfoParser.ReadSoundbankInfo(options.inputPath, Path.TrimEndingDirectorySeparator(options.outputPath) + "\\", options.outputToFolderStructure, options.rpkgPath, options.verbose);
+                        }
+                    }
+
+                    if (options.licenses)
+                    {
+                        Licenses.PrintLicenses();
+                    }
+
+                });
 
             bufferedListener.WriteBufferedMessages();
         }
+
     }
 }
