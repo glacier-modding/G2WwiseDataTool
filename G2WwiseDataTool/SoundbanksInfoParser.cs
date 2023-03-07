@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using System.Xml;
-using static G2WwiseDataTool.EventWriter;
-using static G2WwiseDataTool.EventWriter.Event;
 
 namespace G2WwiseDataTool
 {
