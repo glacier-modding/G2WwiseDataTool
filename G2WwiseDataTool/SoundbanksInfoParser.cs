@@ -19,6 +19,8 @@ namespace G2WwiseDataTool
 
             string directoryPath = Path.GetDirectoryName(inputPath);
 
+            var metaFiles = new MetaFiles();
+
             try
             {
                 XmlDocument xmlDoc = new XmlDocument();
@@ -156,7 +158,7 @@ namespace G2WwiseDataTool
 
                                 if (rpkgPath != null)
                                 {
-                                    MetaFiles.ConvertToMeta(rpkgPath, Path.Combine(finalOutputPath + ".wwiseevent.meta.json"));
+                                    metaFiles.inputMetas.Add(Path.GetFullPath(finalOutputPath + ".wwiseevent.meta.json"));
                                 }
 
                                 foreach (EventWriter.Event.Entry entry in wwev.entries)
@@ -175,7 +177,7 @@ namespace G2WwiseDataTool
 
                                         if (rpkgPath != null)
                                         {
-                                            MetaFiles.ConvertToMeta(rpkgPath, Path.Combine(finalOutputPathWem + ".meta.json"));
+                                            metaFiles.inputMetas.Add(Path.GetFullPath(finalOutputPathWem + ".meta.json"));
                                         }
                                     }
                                 }
@@ -190,7 +192,7 @@ namespace G2WwiseDataTool
 
                                 if (rpkgPath != null)
                                 {
-                                    MetaFiles.ConvertToMeta(rpkgPath, Path.Combine(outputPath + wwev.eventNameHash + ".WWEV.meta.json"));
+                                    metaFiles.inputMetas.Add(Path.GetFullPath(outputPath + wwev.eventNameHash + ".WWEV.meta.json"));
                                 }
 
                                 foreach (EventWriter.Event.Entry entry in wwev.entries)
@@ -202,7 +204,7 @@ namespace G2WwiseDataTool
 
                                         if (rpkgPath != null)
                                         {
-                                            MetaFiles.ConvertToMeta(rpkgPath, Path.Combine(outputPath + entry.wemNameHash + ".WWEM.meta.json"));
+                                            metaFiles.inputMetas.Add(Path.GetFullPath(outputPath + entry.wemNameHash + ".WWEM.meta.json"));
                                         }
 
                                     }
@@ -227,7 +229,7 @@ namespace G2WwiseDataTool
 
                             if (rpkgPath != null)
                             {
-                                MetaFiles.ConvertToMeta(rpkgPath, Path.Combine(finalOutputPath + ".wwisesoundbank.meta.json"));
+                                metaFiles.inputMetas.Add(Path.GetFullPath(finalOutputPath + ".wwisesoundbank.meta.json"));
                             }
 
                         }
@@ -238,14 +240,17 @@ namespace G2WwiseDataTool
 
                             if (rpkgPath != null)
                             {
-                                MetaFiles.ConvertToMeta(rpkgPath, Path.Combine(outputPath + soundBankHash + ".WBNK.meta.json"));
+                                metaFiles.inputMetas.Add(Path.GetFullPath(outputPath + soundBankHash + ".WBNK.meta.json"));
                             }
 
                         }
                     }
                 }
+                metaFiles.ConvertToMeta(rpkgPath);
             }
-            catch(XmlException ex)
+
+
+            catch (XmlException ex)
             {
                 Trace.TraceError("Error parsing XML document: {0} The file may be corrupted, please regenerate SoundBanks in your Wwise project.", ex.ToString);
             }
