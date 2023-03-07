@@ -9,10 +9,10 @@ G2WwiseDataTool is a CLI application which can be used to export SoundBanks and 
 
 ## Usage
 ```
-G2WwiseDataTool 1.1.0
+G2WwiseDataTool 1.2.0
 Copyright (C) Glacier 2 Modding Organisation
 
-  -i, --input                      Required. Path to SoundBanksInfoPath.xml file (Located in
+  -i, --input                      Path to SoundBanksInfoPath.xml file (Located in
                                    Wwise_Project_Root\GeneratedSoundBanks\Windows\).
 
   -o, --output                     Path to output files (Defaults to current working directory).
@@ -22,6 +22,9 @@ Copyright (C) Glacier 2 Modding Organisation
   -f, --output-folder-structure    Output to a folder structure instead of hashes.
 
   -v, --verbose                    Set output to verbose messages.
+
+  -l, --licenses                   Prints license information for G2WwiseDataTool and third party libraries that are
+                                   used.
 
   --help                           Display this help screen.
 
