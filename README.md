@@ -51,3 +51,6 @@ Copyright (C) Glacier 2 Modding Organisation
 
   --version                        Display version information.
 ```
+
+## Credits
+- [2kpr](https://github.com/2kpr) - For helping by adding support for events which contain multiple audio objects and events which contain multiple mixed stream type audio objects.
