@@ -5,12 +5,16 @@ namespace G2WwiseDataTool
 {
     public class SoundbanksInfoParser
     {
-        public static void ReadSoundbankInfo(string inputPath, string outputPath, bool outputToFolderStructure, string rpkgPath, bool verbose)
+        public static void ReadSoundbankInfo(string inputPath, string outputPath, bool outputToFolderStructure, string rpkgPath, bool saveEventAndSoundBankPaths, bool verbose)
         {
 
             string directoryPath = Path.GetDirectoryName(inputPath);
 
             var metaFiles = new MetaFiles();
+
+            HashSet<string> logEventPaths = new HashSet<string>();
+            HashSet<string> logSoundBankPaths = new HashSet<string>();
+            HashSet<string> logUnsupportedEvents = new HashSet<string>();
 
             try
             {
@@ -51,8 +55,6 @@ namespace G2WwiseDataTool
                                 XmlNodeList refStreamedFiles = eventNode.SelectNodes("ReferencedStreamedFiles/File");
                                 foreach (XmlNode refStreamedFile in refStreamedFiles)
                                 {
-                                    //Console.WriteLine("refStreamedFile: " + refStreamedFile.Attributes["Id"].Value);
-
                                     EventWriter.Event.Entry entry = new EventWriter.Event.Entry();
                                     entry.wemID = refStreamedFile.Attributes["Id"].Value;
                                     entry.wemShortName = refStreamedFile.SelectSingleNode("ShortName")?.InnerText;
@@ -75,8 +77,6 @@ namespace G2WwiseDataTool
                                 XmlNodeList excludedMemFiles = eventNode.SelectNodes("ExcludedMemoryFiles/File");
                                 foreach (XmlNode excludedMemFile in excludedMemFiles)
                                 {
-                                    //Console.WriteLine("excludedMemFile: " + excludedMemFile.Attributes["Id"].Value);
-
                                     bool found = false;
                                     string wemID = excludedMemFile.Attributes["Id"].Value;
 
@@ -111,31 +111,28 @@ namespace G2WwiseDataTool
                                 }
                             }
 
-                            //Console.WriteLine("Event Path: " + wwev.eventAssemblyPath.ToLower().Replace("\\", "/"));
-
                             if (verbose)
-                            foreach (EventWriter.Event.Entry entry in wwev.entries)
-                            {
-                                Console.WriteLine("");
-                                Console.WriteLine("Event Name: " + wwev.eventName);
-                                Console.WriteLine("Event Path: " + wwev.eventAssemblyPath.ToLower().Replace("\\", "/"));
-                                Console.WriteLine("Event Object Path: " + wwev.eventObjectPath);
-                                Console.WriteLine("Wem ID: " + entry.wemID);
-                                Console.WriteLine("Wem Assembly Path: " + entry.wemAssemblyPath);
-                                Console.WriteLine("Wem Name Hash: " + entry.wemNameHash);
-                                Console.WriteLine("Prefetch Size: " + entry.prefetchSize.ToString());
-                                Console.WriteLine("Wem Length: " + entry.wemLength.ToString());
-                                Console.WriteLine("isStreamed: " + entry.isStreamed.ToString());
-                                Console.WriteLine("isPrefetched: " + entry.isPrefetched.ToString());
-                            }
-                            else
-                            {
-                                Console.WriteLine("Event Path: " + wwev.eventAssemblyPath.ToLower().Replace("\\", "/"));
-                            }
+                                foreach (EventWriter.Event.Entry entry in wwev.entries)
+                                {
+                                    Console.WriteLine();
+                                    Console.WriteLine("Event Name: " + wwev.eventName);
+                                    Console.WriteLine("Event Object Path: " + wwev.eventObjectPath);
+                                    Console.WriteLine("Wem ID: " + entry.wemID);
+                                    Console.WriteLine("Wem Assembly Path: " + entry.wemAssemblyPath);
+                                    Console.WriteLine("Wem Name Hash: " + entry.wemNameHash);
+                                    Console.WriteLine("Prefetch Size: " + entry.prefetchSize.ToString());
+                                    Console.WriteLine("Wem Length: " + entry.wemLength.ToString());
+                                    Console.WriteLine("isStreamed: " + entry.isStreamed.ToString());
+                                    Console.WriteLine("isPrefetched: " + entry.isPrefetched.ToString());
+                                    Console.WriteLine();
+                                }
+
+                            logEventPaths.Add(wwev.eventAssemblyPath.Replace("\\", "/"));
+                            logSoundBankPaths.Add(soundBankAssemblyPath.Replace("\\", "/"));
 
                             if (wwev.isStreamed && wwev.isPrefetched && wwev.isMemory)
                             {
-                                Trace.TraceError(wwev.eventName + " is unsupported! Please remove the non-streamed audio object from the event or change it to streamed or prefetched instead.");
+                                logUnsupportedEvents.Add(wwev.eventName + " is unsupported! Please remove the non-streamed audio object from the event or change it to streamed or prefetched instead.");
                             }
 
                             if (outputToFolderStructure)
@@ -237,9 +234,42 @@ namespace G2WwiseDataTool
                         }
                     }
                 }
-                metaFiles.ConvertToMeta(rpkgPath);
-            }
 
+                metaFiles.ConvertToMeta(rpkgPath);
+
+                if (logEventPaths.Count > 0)
+                {
+                    Console.WriteLine("Event Paths:");
+                    foreach (string logEventPath in logEventPaths)
+                    {
+                        Console.WriteLine(logEventPath);
+                    }
+                }
+
+                if (logSoundBankPaths.Count > 0)
+                {
+                    Console.WriteLine("SoundBank Paths:");
+                    foreach (string logSoundBankPath in logSoundBankPaths)
+                    {
+                        Console.WriteLine(logSoundBankPath);
+                    }
+                }
+
+                if (saveEventAndSoundBankPaths)
+                {
+                    File.WriteAllLines(Path.Combine(outputPath + "events.txt"), logEventPaths);
+                    File.WriteAllLines(Path.Combine(outputPath + "soundbanks.txt"), logSoundBankPaths);
+                }
+
+                if (logUnsupportedEvents.Count > 0)
+                {
+                    Console.WriteLine("Unsupported Events:");
+                    foreach (string logUnsupportedEvent in logUnsupportedEvents)
+                    {
+                        Console.WriteLine(logUnsupportedEvent);
+                    }
+                }
+            }
 
             catch (XmlException ex)
             {

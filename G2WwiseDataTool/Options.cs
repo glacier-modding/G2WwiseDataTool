@@ -16,6 +16,9 @@ namespace G2WwiseDataTool
         [Option('f', "output-folder-structure", SetName = "export", Required = false, HelpText = "Output to a folder structure instead of hashes.")]
         public bool outputToFolderStructure { get; set; }
 
+        [Option('s', "save-paths", SetName = "export", Required = false, HelpText = "Save Event and SoundBank paths to a events.txt and soundbanks.txt file in the output path.")]
+        public bool saveEventAndSoundBankPaths { get; set; }
+
         [Option('v', "verbose", SetName = "export", Required = false, HelpText = "Set output to verbose messages.")]
         public bool verbose { get; set; }
 

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using CommandLine;
+﻿using CommandLine;
 
 namespace G2WwiseDataTool
 {
@@ -9,9 +8,6 @@ namespace G2WwiseDataTool
 
         static void Main(string[] args)
         {
-            var bufferedListener = new BufferedTraceListener();
-            Trace.Listeners.Add(bufferedListener);
-
             var parser = Parser.Default.ParseArguments<Options>(args);
 
             parser
@@ -26,7 +22,7 @@ namespace G2WwiseDataTool
                         }
                         else
                         {
-                            SoundbanksInfoParser.ReadSoundbankInfo(options.inputPath, Path.TrimEndingDirectorySeparator(options.outputPath) + "\\", options.outputToFolderStructure, options.rpkgPath, options.verbose);
+                            SoundbanksInfoParser.ReadSoundbankInfo(options.inputPath, Path.TrimEndingDirectorySeparator(options.outputPath) + "\\", options.outputToFolderStructure, options.rpkgPath, options.saveEventAndSoundBankPaths, options.verbose);
                         }
                     }
 
@@ -36,8 +32,6 @@ namespace G2WwiseDataTool
                     }
 
                 });
-
-            bufferedListener.WriteBufferedMessages();
         }
 
     }
