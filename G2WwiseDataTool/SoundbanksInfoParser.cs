@@ -235,7 +235,10 @@ namespace G2WwiseDataTool
                     }
                 }
 
-                metaFiles.ConvertToMeta(rpkgPath);
+                if (rpkgPath != null)
+                {
+                    metaFiles.ConvertToMeta(rpkgPath);
+                }
 
                 if (logEventPaths.Count > 0)
                 {
