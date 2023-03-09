@@ -124,33 +124,5 @@ namespace G2WwiseDataTool
 
             System.IO.File.WriteAllText(outputPath, wwemMetaData);
         }
-
-        public List<string> inputMetas = new List<string>();
-
-        public void ConvertToMeta(string rpkgPath)
-        {
-            //var processStartInfo = new ProcessStartInfo(rpkgPath, " -json_to_hash_meta " + "\"" + inputPath + "\"")
-            var processStartInfo = new ProcessStartInfo(rpkgPath, "-i")
-            {
-                RedirectStandardInput = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-
-            var process = Process.Start(processStartInfo);
-
-            foreach (string inputMeta in inputMetas)
-            {
-                process.StandardInput.WriteLine("-json_to_hash_meta " + "\"" + inputMeta + "\"");
-            }
-
-            process.StandardInput.WriteLine("q");
-
-            process.StandardOutput.ReadToEnd();
-
-            process.WaitForExit();
-        }
     }
 }

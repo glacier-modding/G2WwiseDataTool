@@ -5,7 +5,7 @@ namespace G2WwiseDataTool
 {
     public class SoundbanksInfoParser
     {
-        public static void ReadSoundbankInfo(string inputPath, string outputPath, bool outputToFolderStructure, string rpkgPath, bool saveEventAndSoundBankPaths, bool verbose)
+        public static void ReadSoundbankInfo(string inputPath, string outputPath, bool outputToFolderStructure, bool saveEventAndSoundBankPaths, bool verbose)
         {
 
             string directoryPath = Path.GetDirectoryName(inputPath);
@@ -144,11 +144,6 @@ namespace G2WwiseDataTool
 
                                 MetaFiles.GenerateWWEVMetaFile(wwev.eventNameHash, soundBankAssemblyPath, ref depends, finalOutputPath + ".wwiseevent.meta.json");
 
-                                if (rpkgPath != null)
-                                {
-                                    metaFiles.inputMetas.Add(Path.GetFullPath(finalOutputPath + ".wwiseevent.meta.json"));
-                                }
-
                                 foreach (EventWriter.Event.Entry entry in wwev.entries)
                                 {
                                     string finalOutputPathWem = Path.Combine(outputPath, "Originals/", entry.wemPath + ".wav");
@@ -162,11 +157,6 @@ namespace G2WwiseDataTool
                                     {
                                         File.Copy(directoryPath + "\\" + entry.wemID + ".wem", finalOutputPathWem, true);
                                         MetaFiles.GenerateWWEMMetaFile(entry.wemNameHash, finalOutputPathWem + ".meta.json");
-
-                                        if (rpkgPath != null)
-                                        {
-                                            metaFiles.inputMetas.Add(Path.GetFullPath(finalOutputPathWem + ".meta.json"));
-                                        }
                                     }
                                 }
                             }
@@ -178,23 +168,12 @@ namespace G2WwiseDataTool
 
                                 MetaFiles.GenerateWWEVMetaFile(wwev.eventNameHash, soundBankAssemblyPath, ref depends, outputPath + wwev.eventNameHash + ".WWEV.meta.json");
 
-                                if (rpkgPath != null)
-                                {
-                                    metaFiles.inputMetas.Add(Path.GetFullPath(outputPath + wwev.eventNameHash + ".WWEV.meta.json"));
-                                }
-
                                 foreach (EventWriter.Event.Entry entry in wwev.entries)
                                 {
                                     if (entry.isStreamed)
                                     {
                                         File.Copy(Path.Combine(directoryPath, entry.wemID + ".wem"), outputPath + entry.wemNameHash + ".WWEM", true);
                                         MetaFiles.GenerateWWEMMetaFile(entry.wemNameHash, outputPath + entry.wemNameHash + ".WWEM.meta.json");
-
-                                        if (rpkgPath != null)
-                                        {
-                                            metaFiles.inputMetas.Add(Path.GetFullPath(outputPath + entry.wemNameHash + ".WWEM.meta.json"));
-                                        }
-
                                     }
                                 }
                             }
@@ -214,30 +193,13 @@ namespace G2WwiseDataTool
                             }
                             ProcessSoundbanks.ProcessSoundbank(Path.Combine(directoryPath, soundBankPath), finalOutputPath + ".wwisesoundbank");
                             MetaFiles.GenerateWBNKMetaFile(soundBankHash, finalOutputPath + ".wwisesoundbank.meta.json");
-
-                            if (rpkgPath != null)
-                            {
-                                metaFiles.inputMetas.Add(Path.GetFullPath(finalOutputPath + ".wwisesoundbank.meta.json"));
-                            }
-
                         }
                         else
                         {
                             ProcessSoundbanks.ProcessSoundbank(Path.Combine(directoryPath, soundBankPath), outputPath + soundBankHash + ".WBNK");
                             MetaFiles.GenerateWBNKMetaFile(soundBankHash, outputPath + soundBankHash + ".WBNK.meta.json");
-
-                            if (rpkgPath != null)
-                            {
-                                metaFiles.inputMetas.Add(Path.GetFullPath(outputPath + soundBankHash + ".WBNK.meta.json"));
-                            }
-
                         }
                     }
-                }
-
-                if (rpkgPath != null)
-                {
-                    metaFiles.ConvertToMeta(rpkgPath);
                 }
 
                 if (logEventPaths.Count > 0)

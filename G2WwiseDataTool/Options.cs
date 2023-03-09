@@ -10,9 +10,6 @@ namespace G2WwiseDataTool
         [Option('o', "output", SetName = "export", Required = false, HelpText = "Path to output files (Defaults to current working directory).")]
         public string outputPath { get; set; } = Directory.GetCurrentDirectory();
 
-        [Option('r', "rpkg", SetName = "export", Required = false, HelpText = "Path to rpkg-cli for automatic .meta.json to .meta conversion.")]
-        public string rpkgPath { get; set; }
-
         [Option('f', "output-folder-structure", SetName = "export", Required = false, HelpText = "Output to a folder structure instead of hashes.")]
         public bool outputToFolderStructure { get; set; }
 
