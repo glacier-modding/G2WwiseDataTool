@@ -15,6 +15,7 @@ namespace G2WwiseDataTool
 
             HashSet<string> logEventPaths = new HashSet<string>();
             HashSet<string> logSoundBankPaths = new HashSet<string>();
+            HashSet<string> logSwitchPaths = new HashSet<string>();
             HashSet<string> logUnsupportedEvents = new HashSet<string>();
 
             try
@@ -219,6 +220,97 @@ namespace G2WwiseDataTool
                             }
                         }
 
+                        XmlNodeList switchGroups = soundBankNode.SelectNodes("SwitchGroups/SwitchGroup");
+                        foreach (XmlNode switchGroupNode in switchGroups)
+                        {
+                            string switchGroupName = switchGroupNode.Attributes["Name"].Value;
+                            string switchGroupObjectPath = switchGroupNode.Attributes["ObjectPath"].Value;
+                            string switchGroupAssemblyPath = "[assembly:/sound/wwise/exportedwwisedata" + switchGroupObjectPath + ".wwiseswitchgroup].pc_entityblueprint";
+                            string switchGroupAssemblyHash = MD5.ConvertStringtoMD5(switchGroupAssemblyPath);
+
+                            string switchGroupTypeAssemblyPath = "[assembly:/sound/wwise/exportedwwisedata" + switchGroupObjectPath + ".wwiseswitchgroup].pc_entitytype";
+                            string switchGroupTypeAssemblyHash = MD5.ConvertStringtoMD5(switchGroupTypeAssemblyPath);
+
+                            logSwitchPaths.Add(switchGroupTypeAssemblyPath.Replace("\\", "/"));
+                            logSwitchPaths.Add(switchGroupAssemblyPath.Replace("\\", "/"));
+
+                            AudioSwitchWriter.SwitchGroup switchData = new AudioSwitchWriter.SwitchGroup();
+
+                            switchData.name = switchGroupName;
+
+                            foreach (XmlNode switches in switchGroupNode.SelectNodes("Switches/Switch"))
+                            {
+                                string switchName = switches.Attributes["Name"].Value;
+
+                                switchData.switches.Add(switchName);
+                            }
+
+                            MetaFiles.MetaData switchTypeMetaData = new MetaFiles.MetaData();
+
+                            switchTypeMetaData.hashValue = switchGroupTypeAssemblyHash;
+                            switchTypeMetaData.hashOffset = 73362489;
+                            switchTypeMetaData.hashSize = 2147483648;
+                            switchTypeMetaData.hashResourceType = "WSWT";
+                            switchTypeMetaData.hashReferenceTableSize = 22;
+                            switchTypeMetaData.hashReferenceTableDummy = 0;
+                            switchTypeMetaData.hashSizeFinal = 0;
+                            switchTypeMetaData.hashSizeInMemory = 4294967295;
+                            switchTypeMetaData.hashSizeInVideoMemory = 4294967295;
+                            switchTypeMetaData.hashReferenceData.Add(new
+                            {
+                                hash = "[modules:/zaudioswitchentity.class].pc_entitytype",
+                                flag = "1F"
+                            });
+                            switchTypeMetaData.hashReferenceData.Add(new
+                            {
+                                hash = switchGroupAssemblyPath.ToLower().Replace("\\", "/"),
+                                flag = "1F"
+                            });
+
+                            MetaFiles.MetaData switchBlueprintMetaData = new MetaFiles.MetaData();
+
+                            switchBlueprintMetaData.hashValue = switchGroupAssemblyHash;
+                            switchBlueprintMetaData.hashOffset = 44115007;
+                            switchBlueprintMetaData.hashSize = 2147483843;
+                            switchBlueprintMetaData.hashResourceType = "WSWB";
+                            switchBlueprintMetaData.hashReferenceTableSize = 13;
+                            switchBlueprintMetaData.hashReferenceTableDummy = 0;
+                            switchBlueprintMetaData.hashSizeFinal = 265;
+                            switchBlueprintMetaData.hashSizeInMemory = 201;
+                            switchBlueprintMetaData.hashSizeInVideoMemory = 4294967295;
+                            switchBlueprintMetaData.hashReferenceData.Add(new
+                            {
+                                hash = "[modules:/zaudioswitchentity.class].pc_entityblueprint",
+                                flag = "1F"
+                            });
+
+                            if (outputToFolderStructure == true)
+                            {
+                                string finalOutputPath = Path.Combine(outputPath, switchGroupObjectPath.TrimStart('\\'));
+                                if (!Directory.Exists(outputPath))
+                                {
+                                    Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
+                                }
+
+                                switchData.outputPath = finalOutputPath + ".wwiseswitchgroup";
+                                AudioSwitchWriter.WriteAudioSwitch(ref switchData);
+
+                                MetaFiles.GenerateMeta(ref switchBlueprintMetaData, finalOutputPath + ".wwiseswitchgroup.meta.json");
+                            }
+                            else
+                            {
+                                switchData.outputPath = outputPath + switchGroupAssemblyHash + ".WSWB";
+                                AudioSwitchWriter.WriteAudioSwitch(ref switchData);
+
+                                MetaFiles.GenerateMeta(ref switchTypeMetaData, outputPath + switchGroupTypeAssemblyHash + ".WSWT.meta.json");
+                                MetaFiles.GenerateMeta(ref switchBlueprintMetaData, outputPath + switchGroupAssemblyHash + ".WSWB.meta.json");
+
+                                // Create blank WSWT file
+                                File.Create(outputPath + switchGroupTypeAssemblyHash + ".WSWT");
+                            }
+
+                        }
+
                         if (soundBankName == "Init") // Ignore Init soundbank because the game already has one
                         {
                             continue;
@@ -278,10 +370,20 @@ namespace G2WwiseDataTool
                     }
                 }
 
+                if (logSwitchPaths.Count > 0)
+                {
+                    Console.WriteLine("Switch Paths:");
+                    foreach (string logSwitchPath in logSwitchPaths)
+                    {
+                        Console.WriteLine(logSwitchPath);
+                    }
+                }
+
                 if (saveEventAndSoundBankPaths)
                 {
                     File.WriteAllLines(Path.Combine(outputPath + "events.txt"), logEventPaths);
                     File.WriteAllLines(Path.Combine(outputPath + "soundbanks.txt"), logSoundBankPaths);
+                    File.WriteAllLines(Path.Combine(outputPath + "switches.txt"), logSwitchPaths);
                 }
 
                 if (logUnsupportedEvents.Count > 0)
