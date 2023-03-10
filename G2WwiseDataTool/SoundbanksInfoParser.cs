@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Xml;
+using static G2WwiseDataTool.EventWriter.Event;
 
 namespace G2WwiseDataTool
 {
@@ -135,6 +136,43 @@ namespace G2WwiseDataTool
                                 logUnsupportedEvents.Add(wwev.eventName + " is unsupported! Please remove the non-streamed audio object from the event or change it to streamed or prefetched instead.");
                             }
 
+                            MetaFiles.MetaData wwevMetaData = new MetaFiles.MetaData();
+
+                            wwevMetaData.hashValue = wwev.eventNameHash;
+                            wwevMetaData.hashOffset = 315858615;
+                            wwevMetaData.hashSize = 2147483648;
+                            wwevMetaData.hashResourceType = "WWEV";
+                            wwevMetaData.hashReferenceTableSize = 13;
+                            wwevMetaData.hashReferenceTableDummy = 0;
+                            wwevMetaData.hashSizeFinal = 33;
+                            wwevMetaData.hashSizeInMemory = 4294967295;
+                            wwevMetaData.hashSizeInVideoMemory = 4294967295;
+                            wwevMetaData.hashReferenceData.Add(new
+                            {
+                                hash = soundBankAssemblyPath.ToLower().Replace("\\", "/"),
+                                flag = "1F"
+                            });
+                            foreach (string depend in depends)
+                            {
+                                wwevMetaData.hashReferenceData.Add(new
+                                {
+                                    hash = depend.ToLower().Replace("\\", "/"),
+                                    flag = "9F"
+                                });
+                            }
+
+                            MetaFiles.MetaData wwemMetaData = new MetaFiles.MetaData();
+
+                            wwemMetaData.hashValue = "";
+                            wwemMetaData.hashOffset = 1127443684;
+                            wwemMetaData.hashSize = 2147483648;
+                            wwemMetaData.hashResourceType = "WWEM";
+                            wwemMetaData.hashReferenceTableSize = 0;
+                            wwemMetaData.hashReferenceTableDummy = 0;
+                            wwemMetaData.hashSizeFinal = 361339;
+                            wwemMetaData.hashSizeInMemory = 4294967295;
+                            wwemMetaData.hashSizeInVideoMemory = 4294967295;
+
                             if (outputToFolderStructure)
                             {
                                 string finalOutputPath = Path.Combine(outputPath, wwev.eventObjectPath.TrimStart('\\'));
@@ -142,7 +180,7 @@ namespace G2WwiseDataTool
 
                                 EventWriter.WriteWWEV(ref wwev);
 
-                                MetaFiles.GenerateWWEVMetaFile(wwev.eventNameHash, soundBankAssemblyPath, ref depends, finalOutputPath + ".wwiseevent.meta.json");
+                                MetaFiles.GenerateMeta(ref wwevMetaData, finalOutputPath + ".wwiseevent.meta.json");
 
                                 foreach (EventWriter.Event.Entry entry in wwev.entries)
                                 {
@@ -156,7 +194,8 @@ namespace G2WwiseDataTool
                                     if (entry.isStreamed)
                                     {
                                         File.Copy(directoryPath + "\\" + entry.wemID + ".wem", finalOutputPathWem, true);
-                                        MetaFiles.GenerateWWEMMetaFile(entry.wemNameHash, finalOutputPathWem + ".meta.json");
+                                        wwemMetaData.hashValue = entry.wemNameHash;
+                                        MetaFiles.GenerateMeta(ref wwemMetaData, finalOutputPath + ".meta.json");
                                     }
                                 }
                             }
@@ -166,14 +205,15 @@ namespace G2WwiseDataTool
 
                                 EventWriter.WriteWWEV(ref wwev);
 
-                                MetaFiles.GenerateWWEVMetaFile(wwev.eventNameHash, soundBankAssemblyPath, ref depends, outputPath + wwev.eventNameHash + ".WWEV.meta.json");
+                                MetaFiles.GenerateMeta(ref wwevMetaData, outputPath + wwev.eventNameHash + ".WWEV.meta.json");
 
                                 foreach (EventWriter.Event.Entry entry in wwev.entries)
                                 {
                                     if (entry.isStreamed)
                                     {
                                         File.Copy(Path.Combine(directoryPath, entry.wemID + ".wem"), outputPath + entry.wemNameHash + ".WWEM", true);
-                                        MetaFiles.GenerateWWEMMetaFile(entry.wemNameHash, outputPath + entry.wemNameHash + ".WWEM.meta.json");
+                                        wwemMetaData.hashValue = entry.wemNameHash;
+                                        MetaFiles.GenerateMeta(ref wwemMetaData, outputPath + entry.wemNameHash + ".WWEM.meta.json");
                                     }
                                 }
                             }
@@ -184,6 +224,23 @@ namespace G2WwiseDataTool
                             continue;
                         }
 
+                        MetaFiles.MetaData wbnkMetaData = new MetaFiles.MetaData();
+
+                        wbnkMetaData.hashValue = soundBankHash;
+                        wbnkMetaData.hashOffset = 2147494565;
+                        wbnkMetaData.hashSize = 2147494565;
+                        wbnkMetaData.hashResourceType = "WBNK";
+                        wbnkMetaData.hashReferenceTableSize = 13;
+                        wbnkMetaData.hashReferenceTableDummy = 0;
+                        wbnkMetaData.hashSizeFinal = 27726;
+                        wbnkMetaData.hashSizeInMemory = 4294967295;
+                        wbnkMetaData.hashSizeInVideoMemory = 4294967295;
+                        wbnkMetaData.hashReferenceData.Add(new
+                        {
+                            hash = "[assembly:/sound/wwise/exportedwwisedata/soundbanks/globaldata/global.wwisesoundbank].pc_wwisebank",
+                            flag = "1F"
+                        });
+
                         if (outputToFolderStructure == true)
                         {
                             string finalOutputPath = Path.Combine(outputPath, soundBankObjectPath.TrimStart('\\'));
@@ -191,13 +248,14 @@ namespace G2WwiseDataTool
                             {
                                 Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
                             }
+
                             ProcessSoundbanks.ProcessSoundbank(Path.Combine(directoryPath, soundBankPath), finalOutputPath + ".wwisesoundbank");
-                            MetaFiles.GenerateWBNKMetaFile(soundBankHash, finalOutputPath + ".wwisesoundbank.meta.json");
+                            MetaFiles.GenerateMeta(ref wbnkMetaData, finalOutputPath + ".wwisesoundbank.meta.json");
                         }
                         else
                         {
                             ProcessSoundbanks.ProcessSoundbank(Path.Combine(directoryPath, soundBankPath), outputPath + soundBankHash + ".WBNK");
-                            MetaFiles.GenerateWBNKMetaFile(soundBankHash, outputPath + soundBankHash + ".WBNK.meta.json");
+                            MetaFiles.GenerateMeta(ref wbnkMetaData, outputPath + soundBankHash + ".WBNK.meta.json");
                         }
                     }
                 }
