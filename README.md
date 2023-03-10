@@ -1,16 +1,16 @@
 # G2WwiseDataTool
-G2WwiseDataTool is a CLI application which can be used to export SoundBanks and Events from a WWise project into files compatible with Glacier 2.
+G2WwiseDataTool is a CLI application which can be used to export Audio Objects, Events, Switches and SoundBanks from a WWise project into files which are compatible with the Glacier 2 engine.
 
 ## Wwise setup
 1. Download the example Wwise project from: https://github.com/glacier-modding/G2WwiseProject.
 2. Download and install Wwise 2019.2.15.7667 from https://www.audiokinetic.com/en/download/ (You will need a Wwise account).
-3. Setup your Audio Objects, Events and SoundBanks (make sure to untick the media field for each event that you reference in the SoundBank).
+3. Setup your Audio Objects, Events, Switches and SoundBanks (make sure to untick the media field for each event that you reference in the SoundBank).
 4. Generate SoundBanks.
 
 ## In-game setup
 You will need to create a SoundBank entity which references your new SoundBank in the GlobalData brick (`[assembly:/_pro/scenes/bricks/globaldata.brick].pc_entitytype`) using QNE (QuickEntity Editor) and creating a entity.patch.json file for your SMF mod.
 
-Here is an example:
+Here is an example of a SoundBank entity:
 ```json
 {
 	"parent": "abcd889eea2e16b2",
@@ -26,11 +26,9 @@ Here is an example:
 }
 ```
 
-At the moment the tool does not output the path for the SoundBank so you'll need to type it out manually. The next update of the tool will contain that feature.
-
 ## Usage
 ```
-G2WwiseDataTool 1.2.0
+G2WwiseDataTool 1.3.0
 Copyright (C) Glacier 2 Modding Organisation
 
   -i, --input                      Path to SoundBanksInfoPath.xml file (Located in
@@ -38,9 +36,10 @@ Copyright (C) Glacier 2 Modding Organisation
 
   -o, --output                     Path to output files (Defaults to current working directory).
 
-  -r, --rpkg                       Path to rpkg-cli for automatic .meta.json to .meta conversion.
-
   -f, --output-folder-structure    Output to a folder structure instead of hashes.
+
+  -s, --save-paths                 Save Event and SoundBank paths to a events.txt and soundbanks.txt file in the output
+                                   path.
 
   -v, --verbose                    Set output to verbose messages.
 
@@ -51,6 +50,11 @@ Copyright (C) Glacier 2 Modding Organisation
 
   --version                        Display version information.
 ```
+
+### Example Usage
+G2WwiseDataTool.exe -i "InputPath\Windows\SoundbanksInfo.xml" -o "OutputPath" -s
+
+**For automation with Wwise please see the automation section in the G2WwiseProject repository.**
 
 ## Credits
 - [2kpr](https://github.com/2kpr) - For helping by adding support for events which contain multiple audio objects and events which contain multiple mixed stream type audio objects.
