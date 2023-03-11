@@ -95,6 +95,11 @@ namespace G2WwiseDataTool
 
                         wemIndex++;
                     }
+
+                    if (wwev.isMemory)
+                    {
+                        writer.Write((UInt32)0x0);
+                    }
                 }
             }
         }
