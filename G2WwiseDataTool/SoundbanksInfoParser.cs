@@ -36,13 +36,16 @@ namespace G2WwiseDataTool
                         string soundBankAssemblyPath = "[assembly:/sound/wwise/exportedwwisedata" + soundBankObjectPath + ".wwisesoundbank].pc_wwisebank";
                         string soundBankHash = MD5.ConvertStringtoMD5(soundBankAssemblyPath);
 
+                        if (soundBankName == "Init") // Ignore Init soundbank because the game already has one
+                        {
+                            continue;
+                        }
+
+                        logSoundBankPaths.Add(soundBankAssemblyPath.Replace("\\", "/"));
+
                         XmlNodeList events = soundBankNode.SelectNodes("IncludedEvents/Event");
                         foreach (XmlNode eventNode in events)
                         {
-                            if (soundBankName == "Init") // Ignore Init soundbank because the game already has one
-                            {
-                                continue;
-                            }
 
                             List<string> depends = new List<string>();
 
@@ -130,7 +133,6 @@ namespace G2WwiseDataTool
                                 }
 
                             logEventPaths.Add(wwev.eventAssemblyPath.Replace("\\", "/"));
-                            logSoundBankPaths.Add(soundBankAssemblyPath.Replace("\\", "/"));
 
                             if (wwev.isStreamed && wwev.isPrefetched && wwev.isMemory)
                             {
@@ -311,11 +313,6 @@ namespace G2WwiseDataTool
 
                         }
 
-                        if (soundBankName == "Init") // Ignore Init soundbank because the game already has one
-                        {
-                            continue;
-                        }
-
                         MetaFiles.MetaData wbnkMetaData = new MetaFiles.MetaData();
 
                         wbnkMetaData.hashValue = soundBankHash;
@@ -361,15 +358,6 @@ namespace G2WwiseDataTool
                     }
                 }
 
-                if (logSoundBankPaths.Count > 0)
-                {
-                    Console.WriteLine("SoundBank Paths:");
-                    foreach (string logSoundBankPath in logSoundBankPaths)
-                    {
-                        Console.WriteLine(logSoundBankPath);
-                    }
-                }
-
                 if (logSwitchPaths.Count > 0)
                 {
                     Console.WriteLine("Switch Paths:");
@@ -379,11 +367,20 @@ namespace G2WwiseDataTool
                     }
                 }
 
+                if (logSoundBankPaths.Count > 0)
+                {
+                    Console.WriteLine("SoundBank Paths:");
+                    foreach (string logSoundBankPath in logSoundBankPaths)
+                    {
+                        Console.WriteLine(logSoundBankPath);
+                    }
+                }
+
                 if (saveEventAndSoundBankPaths)
                 {
                     File.WriteAllLines(Path.Combine(outputPath + "events.txt"), logEventPaths);
-                    File.WriteAllLines(Path.Combine(outputPath + "soundbanks.txt"), logSoundBankPaths);
                     File.WriteAllLines(Path.Combine(outputPath + "switches.txt"), logSwitchPaths);
+                    File.WriteAllLines(Path.Combine(outputPath + "soundbanks.txt"), logSoundBankPaths);
                 }
 
                 if (logUnsupportedEvents.Count > 0)
