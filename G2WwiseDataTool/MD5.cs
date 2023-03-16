@@ -1,5 +1,5 @@
-﻿using System.Text;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
+using System.Text;
 
 namespace G2WwiseDataTool
 {

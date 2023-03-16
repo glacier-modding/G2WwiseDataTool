@@ -30,7 +30,7 @@ namespace G2WwiseDataTool
             public string outputPath = "";
             public bool isStreamed = false;
             public bool isPrefetched = false;
-            public bool isMemory= false;
+            public bool isMemory = false;
             public List<Entry> entries = new List<Entry>();
         }
 

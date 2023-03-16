@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace G2WwiseDataTool
 {
@@ -27,7 +23,7 @@ namespace G2WwiseDataTool
                 using (var writer = new BinaryWriter(stream, Encoding.UTF8, false))
                 {
                     List<UInt32> offsets = new List<UInt32>();
-                    
+
                     writer.Write(Encoding.UTF8.GetBytes("BIN1"));
                     writer.Write((UInt32)0x00010800); // 8 byte alignment, 1 segment
                     writer.Write((UInt32)0); // to hold big endian size, offset 0x8

@@ -1,12 +1,11 @@
 ﻿using System.Diagnostics;
 using System.Xml;
-using static G2WwiseDataTool.EventWriter.Event;
 
 namespace G2WwiseDataTool
 {
     public class SoundbanksInfoParser
     {
-        public static void ReadSoundbankInfo(string inputPath, string outputPath, bool outputToFolderStructure, bool saveEventAndSoundBankPaths, bool verbose)
+        public static void ReadSoundbankInfo(string inputPath, string outputPath, bool outputToFolderStructure, bool saveEventAndSoundBankPaths, bool verbose, IEnumerable<string> filterSoundBanks)
         {
 
             string directoryPath = Path.GetDirectoryName(inputPath);
@@ -39,6 +38,14 @@ namespace G2WwiseDataTool
                         if (soundBankName == "Init") // Ignore Init soundbank because the game already has one
                         {
                             continue;
+                        }
+
+                        if (filterSoundBanks.Any())
+                        {
+                            if (!filterSoundBanks.Contains(soundBankName))
+                            {
+                                continue;
+                            }
                         }
 
                         logSoundBankPaths.Add(soundBankAssemblyPath.Replace("\\", "/"));
