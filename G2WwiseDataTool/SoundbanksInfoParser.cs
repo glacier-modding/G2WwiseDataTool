@@ -75,8 +75,8 @@ namespace G2WwiseDataTool
                                     entry.isStreamed = true;
                                     entry.wemAssemblyPath = "[assembly:/sound/wwise/originals/" + entry.wemPath + ".wav].pc_wem";
                                     entry.wemNameHash = MD5.ConvertStringtoMD5(entry.wemAssemblyPath);
-                                    entry.wemLength = ProcessWems.GetWemLength(directoryPath + "\\" + entry.wemID);
-                                    entry.wemData = ProcessWems.GetWemData(directoryPath + "\\" + entry.wemID);
+                                    entry.wemLength = ProcessWems.GetWemLength(directoryPath + "/" + entry.wemID);
+                                    entry.wemData = ProcessWems.GetWemData(directoryPath + "/" + entry.wemID);
                                     wwev.entries.Add(entry);
                                     wwev.isStreamed = true;
 
@@ -105,7 +105,7 @@ namespace G2WwiseDataTool
                                                 string prefetchSize = excludedMemFile.SelectSingleNode("PrefetchSize")?.InnerText;
                                                 UInt32 prefetchSizeUInt32 = Convert.ToUInt32(prefetchSize);
                                                 entry.prefetchSize = Convert.ToUInt32(prefetchSize);
-                                                entry.prefetchBuffer = ProcessWems.GetWemBuffer(directoryPath + "\\" + entry.wemID, Convert.ToInt32(prefetchSize));
+                                                entry.prefetchBuffer = ProcessWems.GetWemBuffer(directoryPath + "/" + entry.wemID, Convert.ToInt32(prefetchSize));
                                                 wwev.isPrefetched = true;
                                             }
                                         }
@@ -115,8 +115,8 @@ namespace G2WwiseDataTool
                                     {
                                         EventWriter.Event.Entry entry = new EventWriter.Event.Entry();
                                         entry.wemID = excludedMemFile.Attributes["Id"].Value;
-                                        entry.wemLength = ProcessWems.GetWemLength(directoryPath + "\\" + entry.wemID);
-                                        entry.wemData = ProcessWems.GetWemData(directoryPath + "\\" + entry.wemID);
+                                        entry.wemLength = ProcessWems.GetWemLength(directoryPath + "/" + entry.wemID);
+                                        entry.wemData = ProcessWems.GetWemData(directoryPath + "/" + entry.wemID);
                                         wwev.entries.Add(entry);
                                         wwev.isMemory = true;
                                     }
@@ -203,7 +203,7 @@ namespace G2WwiseDataTool
 
                                     if (entry.isStreamed)
                                     {
-                                        File.Copy(directoryPath + "\\" + entry.wemID + ".wem", finalOutputPathWem, true);
+                                        File.Copy(directoryPath + "/" + entry.wemID + ".wem", finalOutputPathWem, true);
                                         wwemMetaData.hashValue = entry.wemNameHash;
                                         MetaFiles.GenerateMeta(ref wwemMetaData, finalOutputPath + ".meta.json");
                                     }

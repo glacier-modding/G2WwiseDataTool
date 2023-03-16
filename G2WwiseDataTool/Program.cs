@@ -22,7 +22,7 @@ namespace G2WwiseDataTool
                         }
                         else
                         {
-                            SoundbanksInfoParser.ReadSoundbankInfo(options.inputPath, Path.TrimEndingDirectorySeparator(options.outputPath) + "\\", options.outputToFolderStructure, options.saveEventAndSoundBankPaths, options.verbose, options.filterSoundBanks);
+                            SoundbanksInfoParser.ReadSoundbankInfo(options.inputPath, Path.TrimEndingDirectorySeparator(options.outputPath) + "/", options.outputToFolderStructure, options.saveEventAndSoundBankPaths, options.verbose, options.filterSoundBanks);
                         }
                     }
 
