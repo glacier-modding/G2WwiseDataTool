@@ -1,6 +1,15 @@
 # G2WwiseDataTool
 G2WwiseDataTool is a CLI application which can be used to export Audio Objects, Events, Switches and SoundBanks from a WWise project into files which are compatible with the Glacier 2 engine.
 
+## Supported file types
+This table shows which Wwise objects are supported and which Glacier 2 engine file types that they get exported to:
+| Wwise         |  | Glacier 2 |
+|---------------|--|-----------|
+| Audio Objects |->| WWEM      |
+| Events        |->| WWEV      |
+| Switches      |->| WSWT/WSWB |
+| SoundBanks    |->| WBNK      |
+
 ## Wwise setup
 1. Download the example Wwise project from: https://github.com/glacier-modding/G2WwiseProject.
 2. Download and install Wwise 2019.2.15.7667 from https://www.audiokinetic.com/en/download/ (You will need a Wwise account).
