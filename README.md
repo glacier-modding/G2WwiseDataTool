@@ -43,10 +43,10 @@ Here is an example of a SoundBank entity:
 
 ## Usage
 ```
-G2WwiseDataTool 1.3.0
+G2WwiseDataTool 1.4.0
 Copyright (C) Glacier 2 Modding Organisation
 
-  -i, --input                      Path to SoundBanksInfoPath.xml file (Located in
+  -i, --input                      Required. Path to SoundBanksInfoPath.xml file (Located in
                                    Wwise_Project_Root\GeneratedSoundBanks\Windows\).
 
   -o, --output                     Path to output files (Defaults to current working directory).
@@ -55,6 +55,9 @@ Copyright (C) Glacier 2 Modding Organisation
 
   -s, --save-paths                 Save Event and SoundBank paths to a events.txt and soundbanks.txt file in the output
                                    path.
+
+  --filter                         Filters which SoundBanks will get exported separated by spaces. Example: --filter
+                                   Example_SoundBank MyAwesomeSoundBank (case sensitive).
 
   -v, --verbose                    Set output to verbose messages.
 
