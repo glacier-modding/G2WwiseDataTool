@@ -43,7 +43,7 @@ Here is an example of a SoundBank entity:
 
 ## Usage
 ```
-G2WwiseDataTool 1.4.0
+G2WwiseDataTool 1.4.1
 Copyright (C) Glacier 2 Modding Organisation
 
   -i, --input                      Required. Path to SoundBanksInfoPath.xml file (Located in
