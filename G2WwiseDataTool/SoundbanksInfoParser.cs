@@ -71,7 +71,7 @@ namespace G2WwiseDataTool
                                     entry.wemID = refStreamedFile.Attributes["Id"].Value;
                                     entry.wemShortName = refStreamedFile.SelectSingleNode("ShortName")?.InnerText;
                                     entry.wemPath = refStreamedFile.SelectSingleNode("Path")?.InnerText;
-                                    entry.wemPath = entry.wemPath.Substring(0, entry.wemPath.Length - 4);
+                                    entry.wemPath = entry.wemPath.Substring(0, entry.wemPath.Length - 4).Replace("\\", "/");
                                     entry.isStreamed = true;
                                     entry.wemAssemblyPath = "[assembly:/sound/wwise/originals/" + entry.wemPath + ".wav].pc_wem";
                                     entry.wemNameHash = MD5.ConvertStringtoMD5(entry.wemAssemblyPath);
@@ -185,7 +185,7 @@ namespace G2WwiseDataTool
 
                             if (outputToFolderStructure)
                             {
-                                string finalOutputPath = Path.Combine(outputPath, wwev.eventObjectPath.TrimStart('\\'));
+                                string finalOutputPath = Path.Combine(outputPath, wwev.eventObjectPath.TrimStart('\\').Replace("\\", "/"));
                                 wwev.outputPath = finalOutputPath + ".wwiseevent";
 
                                 EventWriter.WriteWWEV(ref wwev);
@@ -295,7 +295,7 @@ namespace G2WwiseDataTool
 
                             if (outputToFolderStructure == true)
                             {
-                                string finalOutputPath = Path.Combine(outputPath, switchGroupObjectPath.TrimStart('\\'));
+                                string finalOutputPath = Path.Combine(outputPath, switchGroupObjectPath.TrimStart('\\').Replace("\\", "/"));
                                 if (!Directory.Exists(outputPath))
                                 {
                                     Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
@@ -339,7 +339,7 @@ namespace G2WwiseDataTool
 
                         if (outputToFolderStructure == true)
                         {
-                            string finalOutputPath = Path.Combine(outputPath, soundBankObjectPath.TrimStart('\\'));
+                            string finalOutputPath = Path.Combine(outputPath, soundBankObjectPath.TrimStart('\\').Replace("\\", "/"));
                             if (!Directory.Exists(outputPath))
                             {
                                 Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
