@@ -194,7 +194,7 @@ namespace G2WwiseDataTool
 
                                 foreach (EventWriter.Event.Entry entry in wwev.entries)
                                 {
-                                    string finalOutputPathWem = Path.Combine(outputPath, "Originals/", entry.wemPath + ".wav");
+                                    string finalOutputPathWem = Path.Combine(outputPath, "Originals/", entry.wemPath);
 
                                     if (!Directory.Exists(finalOutputPathWem))
                                     {
@@ -203,9 +203,9 @@ namespace G2WwiseDataTool
 
                                     if (entry.isStreamed)
                                     {
-                                        File.Copy(directoryPath + "/" + entry.wemID + ".wem", finalOutputPathWem, true);
+                                        File.Copy(directoryPath + "/" + entry.wemID + ".wem", finalOutputPathWem + ".wem", true);
                                         wwemMetaData.hashValue = entry.wemNameHash;
-                                        MetaFiles.GenerateMeta(ref wwemMetaData, finalOutputPath + ".meta.json");
+                                        MetaFiles.GenerateMeta(ref wwemMetaData, finalOutputPathWem + ".wem.meta.json");
                                     }
                                 }
                             }

@@ -1,7 +1,8 @@
 {
   "profiles": {
     "G2WwiseDataTool": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "-i C:\\Users\\Josh\\Documents\\WwiseProjects\\G2WwiseProject\\GeneratedSoundBanks\\Windows\\SoundbanksInfo.xml -o output"
     }
   }
 }
