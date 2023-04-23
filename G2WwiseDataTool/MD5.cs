@@ -9,7 +9,7 @@ namespace G2WwiseDataTool
         {
             // from RPKG-Tool https://github.com/glacier-modding/RPKG-Tool/blob/dd86901f4a3a64b2a358a4ea607fa144e7fc2cfa/rpkg-gui/HashCalculator.xaml.cs#L94
 
-            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create();
 
             inputString = inputString.Trim().ToLower().Replace("\\", "/");
 
