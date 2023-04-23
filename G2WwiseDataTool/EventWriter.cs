@@ -26,7 +26,7 @@ namespace G2WwiseDataTool
             public string eventObjectPath = "";
             public string eventAssemblyPath = "";
             public string eventNameHash = "";
-            public Single unknownFloat = -1;
+            public Single unknownFloat = -1; // Max Attenuation Radius? (the game uses the value in the soundbank instead so changing this does absolutely nothing)
             public string outputPath = "";
             public bool isStreamed = false;
             public bool isPrefetched = false;
