@@ -414,7 +414,7 @@ namespace G2WwiseDataTool
 
             catch (XmlException ex)
             {
-                Trace.TraceError("Error parsing XML document: {0} The file may be corrupted, please regenerate SoundBanks in your Wwise project.", ex.ToString);
+                Console.WriteLine($"Error parsing SoundbanksInfo.xml: {ex}\n\nThe file may be corrupted, please regenerate SoundBanks in your Wwise project.");
             }
         }
     }
