@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace G2WwiseDataTool
@@ -50,7 +51,7 @@ namespace G2WwiseDataTool
 
                         logSoundBankPaths.Add(soundBankAssemblyPath.Replace("\\", "/"));
 
-                        XmlNodeList events = soundBankNode.SelectNodes("IncludedEvents/Event");
+                        XmlNodeList events = soundBankNode.SelectNodes("IncludedEvents/Event | IncludedDialogueEvents/DialogueEvent");
                         foreach (XmlNode eventNode in events)
                         {
 
@@ -59,7 +60,18 @@ namespace G2WwiseDataTool
                             EventWriter.Event wwev = new EventWriter.Event();
                             wwev.eventName = eventNode.Attributes["Name"].Value;
                             wwev.eventObjectPath = eventNode.Attributes["ObjectPath"].Value;
-                            wwev.eventAssemblyPath = "[assembly:/sound/wwise/exportedwwisedata" + wwev.eventObjectPath + ".wwiseevent].pc_wwisebank";
+
+                            if (eventNode.Name == "Event")
+                            {
+                                wwev.eventAssemblyPath = "[assembly:/sound/wwise/exportedwwisedata" + wwev.eventObjectPath + ".wwiseevent].pc_wwisebank";
+                            }
+
+                            else
+                            {
+                                string objectPath = Regex.Replace(wwev.eventObjectPath, @"\bDynamic Dialogue\b", "DynamicDialogue");
+                                wwev.eventAssemblyPath = "[assembly:/sound/wwise/exportedwwisedata" + objectPath + ".wwisedialogueevent].pc_wwisebank";
+                            }
+
                             wwev.eventNameHash = MD5.ConvertStringtoMD5(wwev.eventAssemblyPath);
 
                             if (eventNode.SelectSingleNode("ReferencedStreamedFiles") != null)

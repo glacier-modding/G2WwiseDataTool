@@ -4,7 +4,7 @@
     {
         public static byte[] GetWemBuffer(string inputPath, int prefetchSize)
         {
-            inputPath = inputPath + ".wem";
+            inputPath += ".wem";
 
             using (BinaryReader reader = new BinaryReader(File.Open(inputPath, FileMode.Open)))
             {
@@ -15,7 +15,7 @@
 
         public static UInt32 GetWemLength(string inputPath)
         {
-            inputPath = inputPath + ".wem";
+            inputPath += ".wem";
 
             using (BinaryReader reader = new BinaryReader(File.Open(inputPath, FileMode.Open)))
             {
@@ -26,7 +26,7 @@
 
         public static byte[] GetWemData(string inputPath)
         {
-            inputPath = inputPath + ".wem";
+            inputPath += ".wem";
 
             using (BinaryReader reader = new BinaryReader(File.Open(inputPath, FileMode.Open)))
             {
