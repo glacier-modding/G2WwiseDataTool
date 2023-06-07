@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <Copyright>Copyright (C) Glacier 2 Modding Organisation </Copyright>
-	<Version>1.4.1</Version>
+	<Version>1.5.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
