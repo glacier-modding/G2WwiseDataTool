@@ -66,7 +66,7 @@ namespace G2WwiseDataTool
                                 wwev.eventAssemblyPath = "[assembly:/sound/wwise/exportedwwisedata" + wwev.eventObjectPath + ".wwiseevent].pc_wwisebank";
                             }
 
-                            else
+                            if (eventNode.Name == "DialogueEvent")
                             {
                                 string objectPath = Regex.Replace(wwev.eventObjectPath, @"\bDynamic Dialogue\b", "DynamicDialogue");
                                 wwev.eventAssemblyPath = "[assembly:/sound/wwise/exportedwwisedata" + objectPath + ".wwisedialogueevent].pc_wwisebank";
