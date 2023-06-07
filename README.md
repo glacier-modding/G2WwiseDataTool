@@ -76,5 +76,10 @@ G2WwiseDataTool.exe -i "InputPath\Windows\SoundbanksInfo.xml" -o "OutputPath" -s
 
 **For automation with Wwise please see the automation section in the G2WwiseProject repository.**
 
+## Limitations
+- Replacing existing events doesn't always seem to work. The game loads the event data from existing soundbanks instead. You will need to create entirely new events.
+  - If you wish to replace existing events in the game you will need to manually rename the generated WWEV file to match the hash of the WWEV that you are wanting to replace.
+- Custom States are not possible due to them needing to be in the Init bank.
+
 ## Credits
 - [2kpr](https://github.com/2kpr) - For helping by adding support for events which contain multiple audio objects and events which contain multiple mixed stream type audio objects.
