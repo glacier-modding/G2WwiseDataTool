@@ -45,30 +45,26 @@ Here is an example of a SoundBank entity:
 Requires [.NET Runtime 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) installed.
 
 ```
-G2WwiseDataTool 1.4.1
+G2WwiseDataTool 1.6.0
 Copyright (C) Glacier 2 Modding Organisation
 
-  -i, --input                      Required. Path to SoundBanksInfoPath.xml file (Located in
-                                   Wwise_Project_Root\GeneratedSoundBanks\Windows\).
+  -i, --input         Required. Path to SoundBanksInfoPath.xml file (Located in
+                      Wwise_Project_Root\GeneratedSoundBanks\Windows\).
 
-  -o, --output                     Path to output files (Defaults to current working directory).
+  -o, --output        Path to output files (Defaults to current working directory).
 
-  -f, --output-folder-structure    Output to a folder structure instead of hashes.
+  -s, --save-paths    Save Event and SoundBank paths to a events.txt and soundbanks.txt file in the output path.
 
-  -s, --save-paths                 Save Event and SoundBank paths to a events.txt and soundbanks.txt file in the output
-                                   path.
+  -f, --filter        Filters which SoundBanks will get exported separated by spaces. Example: --filter
+                      Example_SoundBank MyAwesomeSoundBank (case sensitive).
 
-  --filter                         Filters which SoundBanks will get exported separated by spaces. Example: --filter
-                                   Example_SoundBank MyAwesomeSoundBank (case sensitive).
+  -v, --verbose       Set output to verbose messages.
 
-  -v, --verbose                    Set output to verbose messages.
+  -l, --licenses      Prints license information for G2WwiseDataTool and third party libraries that are used.
 
-  -l, --licenses                   Prints license information for G2WwiseDataTool and third party libraries that are
-                                   used.
+  --help              Display this help screen.
 
-  --help                           Display this help screen.
-
-  --version                        Display version information.
+  --version           Display version information.
 ```
 
 ### Example Usage
@@ -80,6 +76,7 @@ G2WwiseDataTool.exe -i "InputPath\Windows\SoundbanksInfo.xml" -o "OutputPath" -s
 - Replacing existing events doesn't always seem to work. The game loads the event data from existing soundbanks instead. You will need to create entirely new events.
   - If you wish to replace existing events in the game you will need to manually rename the generated WWEV file to match the hash of the WWEV that you are wanting to replace.
 - Custom States are not possible due to them needing to be in the Init bank.
+- Audio objects must be "Sound SFX".
 
 ## Credits
 - [2kpr](https://github.com/2kpr) - For helping by adding support for events which contain multiple audio objects and events which contain multiple mixed stream type audio objects.
