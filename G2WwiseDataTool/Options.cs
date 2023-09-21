@@ -10,13 +10,10 @@ namespace G2WwiseDataTool
         [Option('o', "output", SetName = "export", Required = false, HelpText = "Path to output files (Defaults to current working directory).")]
         public string outputPath { get; set; } = Directory.GetCurrentDirectory();
 
-        [Option('f', "output-folder-structure", SetName = "export", Required = false, HelpText = "Output to a folder structure instead of hashes.")]
-        public bool outputToFolderStructure { get; set; }
-
         [Option('s', "save-paths", SetName = "export", Required = false, HelpText = "Save Event and SoundBank paths to a events.txt and soundbanks.txt file in the output path.")]
         public bool saveEventAndSoundBankPaths { get; set; }
 
-        [Option("filter", SetName = "export", Required = false, HelpText = "Filters which SoundBanks will get exported separated by spaces. Example: --filter Example_SoundBank MyAwesomeSoundBank (case sensitive).")]
+        [Option('f', "filter", SetName = "export", Required = false, HelpText = "Filters which SoundBanks will get exported separated by spaces. Example: --filter Example_SoundBank MyAwesomeSoundBank (case sensitive).")]
         public IEnumerable<string> filterSoundBanks { get; set; }
 
         [Option('v', "verbose", SetName = "export", Required = false, HelpText = "Set output to verbose messages.")]

@@ -1,12 +1,11 @@
-﻿using System.Diagnostics;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace G2WwiseDataTool
 {
     public class SoundbanksInfoParser
     {
-        public static void ReadSoundbankInfo(string inputPath, string outputPath, bool outputToFolderStructure, bool saveEventAndSoundBankPaths, bool verbose, IEnumerable<string> filterSoundBanks)
+        public static void ReadSoundbankInfo(string inputPath, string outputPath, bool saveEventAndSoundBankPaths, bool verbose, IEnumerable<string> filterSoundBanks)
         {
 
             string directoryPath = Path.GetDirectoryName(inputPath);
@@ -195,48 +194,20 @@ namespace G2WwiseDataTool
                             wwemMetaData.hashSizeInMemory = 4294967295;
                             wwemMetaData.hashSizeInVideoMemory = 4294967295;
 
-                            if (outputToFolderStructure)
+
+                            wwev.outputPath = outputPath + wwev.eventNameHash + ".WWEV";
+
+                            EventWriter.WriteWWEV(ref wwev);
+
+                            MetaFiles.GenerateMeta(ref wwevMetaData, outputPath + wwev.eventNameHash + ".WWEV.meta.json");
+
+                            foreach (EventWriter.Event.Entry entry in wwev.entries)
                             {
-                                string finalOutputPath = Path.Combine(outputPath, wwev.eventObjectPath.TrimStart('\\').Replace("\\", "/"));
-                                wwev.outputPath = finalOutputPath + ".wwiseevent";
-
-                                EventWriter.WriteWWEV(ref wwev);
-
-                                MetaFiles.GenerateMeta(ref wwevMetaData, finalOutputPath + ".wwiseevent.meta.json");
-
-                                foreach (EventWriter.Event.Entry entry in wwev.entries)
+                                if (entry.isStreamed)
                                 {
-                                    string finalOutputPathWem = Path.Combine(outputPath, "Originals/", entry.wemPath);
-
-                                    if (!Directory.Exists(finalOutputPathWem))
-                                    {
-                                        Directory.CreateDirectory(Path.GetDirectoryName(finalOutputPathWem));
-                                    }
-
-                                    if (entry.isStreamed)
-                                    {
-                                        File.Copy(directoryPath + "/" + entry.wemID + ".wem", finalOutputPathWem + ".wem", true);
-                                        wwemMetaData.hashValue = entry.wemNameHash;
-                                        MetaFiles.GenerateMeta(ref wwemMetaData, finalOutputPathWem + ".wem.meta.json");
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                wwev.outputPath = outputPath + wwev.eventNameHash + ".WWEV";
-
-                                EventWriter.WriteWWEV(ref wwev);
-
-                                MetaFiles.GenerateMeta(ref wwevMetaData, outputPath + wwev.eventNameHash + ".WWEV.meta.json");
-
-                                foreach (EventWriter.Event.Entry entry in wwev.entries)
-                                {
-                                    if (entry.isStreamed)
-                                    {
-                                        File.Copy(Path.Combine(directoryPath, entry.wemID + ".wem"), outputPath + entry.wemNameHash + ".WWEM", true);
-                                        wwemMetaData.hashValue = entry.wemNameHash;
-                                        MetaFiles.GenerateMeta(ref wwemMetaData, outputPath + entry.wemNameHash + ".WWEM.meta.json");
-                                    }
+                                    File.Copy(Path.Combine(directoryPath, entry.wemID + ".wem"), outputPath + entry.wemNameHash + ".WWEM", true);
+                                    wwemMetaData.hashValue = entry.wemNameHash;
+                                    MetaFiles.GenerateMeta(ref wwemMetaData, outputPath + entry.wemNameHash + ".WWEM.meta.json");
                                 }
                             }
                         }
@@ -305,31 +276,14 @@ namespace G2WwiseDataTool
                                 flag = "1F"
                             });
 
-                            if (outputToFolderStructure == true)
-                            {
-                                string finalOutputPath = Path.Combine(outputPath, switchGroupObjectPath.TrimStart('\\').Replace("\\", "/"));
-                                if (!Directory.Exists(outputPath))
-                                {
-                                    Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
-                                }
+                            switchData.outputPath = outputPath + switchGroupAssemblyHash + ".WSWB";
+                            AudioSwitchWriter.WriteAudioSwitch(ref switchData);
 
-                                switchData.outputPath = finalOutputPath + ".wwiseswitchgroup";
-                                AudioSwitchWriter.WriteAudioSwitch(ref switchData);
+                            MetaFiles.GenerateMeta(ref switchTypeMetaData, outputPath + switchGroupTypeAssemblyHash + ".WSWT.meta.json");
+                            MetaFiles.GenerateMeta(ref switchBlueprintMetaData, outputPath + switchGroupAssemblyHash + ".WSWB.meta.json");
 
-                                MetaFiles.GenerateMeta(ref switchBlueprintMetaData, finalOutputPath + ".wwiseswitchgroup.meta.json");
-                            }
-                            else
-                            {
-                                switchData.outputPath = outputPath + switchGroupAssemblyHash + ".WSWB";
-                                AudioSwitchWriter.WriteAudioSwitch(ref switchData);
-
-                                MetaFiles.GenerateMeta(ref switchTypeMetaData, outputPath + switchGroupTypeAssemblyHash + ".WSWT.meta.json");
-                                MetaFiles.GenerateMeta(ref switchBlueprintMetaData, outputPath + switchGroupAssemblyHash + ".WSWB.meta.json");
-
-                                // Create blank WSWT file
-                                File.Create(outputPath + switchGroupTypeAssemblyHash + ".WSWT");
-                            }
-
+                            // Create blank WSWT file
+                            File.Create(outputPath + switchGroupTypeAssemblyHash + ".WSWT");
                         }
 
                         MetaFiles.MetaData wbnkMetaData = new MetaFiles.MetaData();
@@ -349,22 +303,8 @@ namespace G2WwiseDataTool
                             flag = "1F"
                         });
 
-                        if (outputToFolderStructure == true)
-                        {
-                            string finalOutputPath = Path.Combine(outputPath, soundBankObjectPath.TrimStart('\\').Replace("\\", "/"));
-                            if (!Directory.Exists(outputPath))
-                            {
-                                Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
-                            }
-
-                            ProcessSoundbanks.ProcessSoundbank(Path.Combine(directoryPath, soundBankPath), finalOutputPath + ".wwisesoundbank");
-                            MetaFiles.GenerateMeta(ref wbnkMetaData, finalOutputPath + ".wwisesoundbank.meta.json");
-                        }
-                        else
-                        {
-                            ProcessSoundbanks.ProcessSoundbank(Path.Combine(directoryPath, soundBankPath), outputPath + soundBankHash + ".WBNK");
-                            MetaFiles.GenerateMeta(ref wbnkMetaData, outputPath + soundBankHash + ".WBNK.meta.json");
-                        }
+                        ProcessSoundbanks.ProcessSoundbank(Path.Combine(directoryPath, soundBankPath), outputPath + soundBankHash + ".WBNK");
+                        MetaFiles.GenerateMeta(ref wbnkMetaData, outputPath + soundBankHash + ".WBNK.meta.json");
                     }
                 }
 
