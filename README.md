@@ -45,20 +45,21 @@ Here is an example of a SoundBank entity:
 Requires [.NET Runtime 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) installed.
 
 ```
-G2WwiseDataTool 1.6.0
+G2WwiseDataTool 1.6.1
 Copyright (C) Glacier 2 Modding Organisation
 
-  -i, --input         Required. Path to SoundBanksInfoPath.xml file (Located in
+  -i, --input         Required. Path to the SoundbanksInfo.xml file (located in
                       Wwise_Project_Root\GeneratedSoundBanks\Windows\).
 
-  -o, --output        Path to output files (Defaults to current working directory).
+  -o, --output        Path to output the files (defaults to current working directory).
 
-  -s, --save-paths    Save Event and SoundBank paths to a events.txt and soundbanks.txt file in the output path.
+  -s, --save-paths    Saves Event, Switch and SoundBank paths to events.txt, switches.txt and soundbanks.txt text files
+                      in the output path.
 
   -f, --filter        Filters which SoundBanks will get exported separated by spaces. Example: --filter
                       Example_SoundBank MyAwesomeSoundBank (case sensitive).
 
-  -v, --verbose       Set output to verbose messages.
+  -v, --verbose       Sets output to verbose messages mode.
 
   -l, --licenses      Prints license information for G2WwiseDataTool and third party libraries that are used.
 
