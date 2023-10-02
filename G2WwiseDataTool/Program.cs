@@ -17,7 +17,7 @@ namespace G2WwiseDataTool
                     {
                         if (Path.GetFileName(options.inputPath) != "SoundbanksInfo.xml")
                         {
-                            Console.WriteLine("Input file specified must be SoundBanksInfo.xml");
+                            Console.WriteLine("Input file specified must be SoundbanksInfo.xml");
                             return;
                         }
                         else
