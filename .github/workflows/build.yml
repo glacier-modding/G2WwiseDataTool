@@ -61,6 +61,11 @@ jobs:
         with:
           files: ${{ matrix.platform }}.zip
 
+  trigger_website_build:
+    needs: release
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Trigger glaciermodding.org build
         uses: peter-evans/repository-dispatch@v2
         with:
