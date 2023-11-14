@@ -13,13 +13,13 @@
             }
         }
 
-        public static UInt32 GetWemLength(string inputPath)
+        public static uint GetWemLength(string inputPath)
         {
             inputPath += ".wem";
 
             using (BinaryReader reader = new BinaryReader(File.Open(inputPath, FileMode.Open)))
             {
-                UInt32 data = (UInt32)reader.BaseStream.Length;
+                uint data = (uint)reader.BaseStream.Length;
                 return data;
             }
         }

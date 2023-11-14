@@ -14,19 +14,19 @@ namespace G2WwiseDataTool
                 public string wemPath = "";
                 public string wemAssemblyPath = "";
                 public string wemNameHash = "";
-                public UInt32 prefetchSize = 0;
+                public uint prefetchSize = 0;
                 public byte[]? prefetchBuffer;
-                public UInt32 wemLength = 0;
+                public uint wemLength = 0;
                 public byte[]? wemData;
-                public Boolean isStreamed = false;
-                public Boolean isPrefetched = false;
+                public bool isStreamed = false;
+                public bool isPrefetched = false;
             }
 
             public string eventName = "";
             public string eventObjectPath = "";
             public string eventAssemblyPath = "";
             public string eventNameHash = "";
-            public Single unknownFloat = -1; // Max Attenuation Radius? (the game uses the value in the soundbank instead so changing this does absolutely nothing)
+            public float unknownFloat = -1; // Max Attenuation Radius? (the game uses the value in the soundbank instead so changing this does absolutely nothing)
             public string outputPath = "";
             public bool isStreamed = false;
             public bool isPrefetched = false;
@@ -36,7 +36,7 @@ namespace G2WwiseDataTool
 
         public static void WriteWWEV(ref Event wwev)
         {
-            Int32 eventNameLength = wwev.eventName.Length;
+            int eventNameLength = wwev.eventName.Length;
             byte[] eventNameBytes = Encoding.UTF8.GetBytes(wwev.eventName);
 
             // Streamed = Do not include wem data in WWEV file
@@ -54,22 +54,22 @@ namespace G2WwiseDataTool
                 {
                     writer.Write(eventNameLength + 0x1);
                     writer.Write(eventNameBytes);
-                    writer.Write((SByte)0x0); // Padding
+                    writer.Write((sbyte)0x0); // Padding
                     writer.Write(wwev.unknownFloat);
 
                     if (wwev.isStreamed)
                     {
-                        writer.Write((UInt32)0x0); // Count 0 / Padding / isStreamed and/or isPrefetched
+                        writer.Write((uint)0x0); // Count 0 / Padding / isStreamed and/or isPrefetched
                     }
 
                     if (wwev.entries.Count == 0)
                     {
-                        writer.Write((UInt32)0x0);
+                        writer.Write((uint)0x0);
                     }
 
-                    writer.Write((UInt32)wwev.entries.Count);
+                    writer.Write((uint)wwev.entries.Count);
 
-                    UInt32 wemIndex = 1;
+                    uint wemIndex = 1;
 
                     foreach (Entry entry in wwev.entries)
                     {
@@ -84,7 +84,7 @@ namespace G2WwiseDataTool
                         {
                             writer.Write(wemIndex);
                             writer.Write(Convert.ToUInt32(entry.wemID));
-                            writer.Write((UInt32)0x0); // prefetchSize
+                            writer.Write((uint)0x0); // prefetchSize
                         }
                         else
                         {
@@ -98,7 +98,7 @@ namespace G2WwiseDataTool
 
                     if (wwev.isMemory)
                     {
-                        writer.Write((UInt32)0x0);
+                        writer.Write((uint)0x0);
                     }
                 }
             }

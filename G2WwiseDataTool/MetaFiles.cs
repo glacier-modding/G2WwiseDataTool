@@ -7,14 +7,14 @@ namespace G2WwiseDataTool
         public class MetaData
         {
             public string hashValue = "";
-            public UInt32 hashOffset = 0;
-            public UInt32 hashSize = 0;
+            public uint hashOffset = 0;
+            public uint hashSize = 0;
             public string hashResourceType = "";
-            public UInt32 hashReferenceTableSize = 0;
-            public UInt32 hashReferenceTableDummy = 0;
-            public UInt32 hashSizeFinal = 0;
-            public UInt32 hashSizeInMemory = 0;
-            public UInt32 hashSizeInVideoMemory = 0;
+            public uint hashReferenceTableSize = 0;
+            public uint hashReferenceTableDummy = 0;
+            public uint hashSizeFinal = 0;
+            public uint hashSizeInMemory = 0;
+            public uint hashSizeInVideoMemory = 0;
             public List<object> hashReferenceData = new List<object>();
         }
 

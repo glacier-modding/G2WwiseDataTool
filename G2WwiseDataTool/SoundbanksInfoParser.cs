@@ -114,7 +114,7 @@ namespace G2WwiseDataTool
                                                 entry.isPrefetched = true;
 
                                                 string prefetchSize = excludedMemFile.SelectSingleNode("PrefetchSize")?.InnerText;
-                                                UInt32 prefetchSizeUInt32 = Convert.ToUInt32(prefetchSize);
+                                                uint prefetchSizeUInt32 = Convert.ToUInt32(prefetchSize);
                                                 entry.prefetchSize = Convert.ToUInt32(prefetchSize);
                                                 entry.prefetchBuffer = ProcessWems.GetWemBuffer(directoryPath + "/" + entry.wemID, Convert.ToInt32(prefetchSize));
                                                 wwev.isPrefetched = true;
