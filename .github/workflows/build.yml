@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.target }}
-          path: G2WwiseDataTool\bin\Release\net7.0\publish\${{ matrix.target }}
+          path: G2WwiseDataTool\bin\Release\net8.0\publish\${{ matrix.target }}
 
   release:
     needs: build_all

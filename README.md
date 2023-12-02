@@ -42,7 +42,7 @@ Here is an example of a SoundBank entity:
 ```
 
 ## Usage
-Requires [.NET Runtime 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) installed.
+Requires [.NET Runtime 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) installed.
 
 ```
 G2WwiseDataTool 1.6.1
