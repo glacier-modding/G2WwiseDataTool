@@ -26,7 +26,7 @@ namespace G2WwiseDataTool
             public string eventObjectPath = "";
             public string eventAssemblyPath = "";
             public string eventNameHash = "";
-            public float unknownFloat = -1; // Max Attenuation Radius? (the game uses the value in the soundbank instead so changing this does absolutely nothing)
+            public float eventMaxAttenuation = -1; // doesn't seem to affect anything in-game, probably used for debugging purposes.
             public string outputPath = "";
             public bool isStreamed = false;
             public bool isPrefetched = false;
@@ -55,7 +55,7 @@ namespace G2WwiseDataTool
                     writer.Write(eventNameLength + 0x1);
                     writer.Write(eventNameBytes);
                     writer.Write((sbyte)0x0); // Padding
-                    writer.Write(wwev.unknownFloat);
+                    writer.Write(wwev.eventMaxAttenuation);
 
                     if (wwev.isStreamed)
                     {

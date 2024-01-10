@@ -60,6 +60,16 @@ namespace G2WwiseDataTool
                             wwev.eventName = eventNode.Attributes["Name"].Value;
                             wwev.eventObjectPath = eventNode.Attributes["ObjectPath"].Value;
 
+
+                            if (eventNode.Attributes["MaxAttenuation"] != null && eventNode.Attributes["MaxAttenuation"].Value != "")
+                            {
+                                wwev.eventMaxAttenuation = float.Parse(eventNode.Attributes["MaxAttenuation"].Value);
+                            }
+                            else
+                            {
+                                wwev.eventMaxAttenuation = -1.0f;
+                            }
+
                             if (eventNode.Name == "Event")
                             {
                                 wwev.eventAssemblyPath = "[assembly:/sound/wwise/exportedwwisedata" + wwev.eventObjectPath + ".wwiseevent].pc_wwisebank";
