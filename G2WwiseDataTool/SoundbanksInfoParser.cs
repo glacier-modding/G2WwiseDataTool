@@ -48,7 +48,7 @@ namespace G2WwiseDataTool
                             }
                         }
 
-                        logSoundBankPaths.Add(soundBankAssemblyPath.Replace("\\", "/"));
+                        logSoundBankPaths.Add(soundBankHash + ".WBNK," + soundBankAssemblyPath.Replace("\\", "/"));
 
                         XmlNodeList events = soundBankNode.SelectNodes("IncludedEvents/Event | IncludedDialogueEvents/DialogueEvent");
                         foreach (XmlNode eventNode in events)
@@ -150,7 +150,7 @@ namespace G2WwiseDataTool
                                     Console.WriteLine();
                                 }
 
-                            logEventPaths.Add(wwev.eventAssemblyPath.Replace("\\", "/"));
+                            logEventPaths.Add(wwev.eventNameHash + ".WWEV," + wwev.eventAssemblyPath.Replace("\\", "/"));
 
                             if (wwev.isStreamed && wwev.isPrefetched && wwev.isMemory)
                             {
@@ -223,8 +223,8 @@ namespace G2WwiseDataTool
                             string switchGroupTypeAssemblyPath = "[assembly:/sound/wwise/exportedwwisedata" + switchGroupObjectPath + ".wwiseswitchgroup].pc_entitytype";
                             string switchGroupTypeAssemblyHash = MD5.ConvertStringtoMD5(switchGroupTypeAssemblyPath);
 
-                            logSwitchPaths.Add(switchGroupTypeAssemblyPath.Replace("\\", "/"));
-                            logSwitchPaths.Add(switchGroupAssemblyPath.Replace("\\", "/"));
+                            logSwitchPaths.Add(switchGroupTypeAssemblyHash + ".WSWT," + switchGroupTypeAssemblyPath.Replace("\\", "/"));
+                            logSwitchPaths.Add(switchGroupAssemblyHash + ".WSWB," + switchGroupAssemblyPath.Replace("\\", "/"));
 
                             AudioSwitchWriter.SwitchGroup switchData = new AudioSwitchWriter.SwitchGroup();
 
