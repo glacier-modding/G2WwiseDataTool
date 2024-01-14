@@ -1,14 +1,14 @@
 # G2WwiseDataTool
-G2WwiseDataTool is a CLI application which can be used to export Audio Objects, Events, Switches and SoundBanks from a WWise project into files which are compatible with the Glacier 2 engine.
+G2WwiseDataTool is a CLI application which can be used to export Audio Objects, Events, Switches and SoundBanks from a Wwise project's GeneratedSoundBanks folder into files which are compatible with the Glacier 2 engine.
 
 ## Supported file types
 This table shows which Wwise objects are supported and which Glacier 2 engine file types that they get exported to:
-| Wwise                  |  | Glacier 2 |
-|------------------------|--|-----------|
-| Audio Objects          |->| WWEM      |
-| Events/Dialogue Events |->| WWEV      |
-| Switches               |->| WSWT/WSWB |
-| SoundBanks             |->| WBNK      |
+| Wwise                  |  | Glacier 2 | Custom                          |
+|------------------------|--|-----------|---------------------------------|
+| Audio Objects (wem)    |->| WWEM      | No                              |
+| Events/Dialogue Events |->| WWEV      | Yes                             |
+| Switches               |->| WSWT/WSWB | Yes                             |
+| SoundBanks (bnk)       |->| WBNK      | No (custom header added though) |
 
 **Technical information:**
 - Non-streamed audio objects get stored in the WWEV files instead of being stored in the SoundBanks.
@@ -45,7 +45,7 @@ Here is an example of a SoundBank entity:
 Requires [.NET Runtime 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) installed.
 
 ```
-G2WwiseDataTool 1.6.1
+G2WwiseDataTool 1.7.0
 Copyright (C) Glacier 2 Modding Organisation
 
   -i, --input         Required. Path to the SoundbanksInfo.xml file (located in
